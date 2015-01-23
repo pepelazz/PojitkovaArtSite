@@ -1,0 +1,12 @@
+
+
+@font-face {
+    font-family: 'aleksandracregular';
+    src: url('aleksandrac_regular.eot');
+    src: url('aleksandrac_regular.eot?#iefix') format('embedded-opentype'),
+         url('aleksandrac_regular.woff') format('woff'),
+         url('aleksandrac_regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}

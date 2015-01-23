@@ -5,9 +5,13 @@ require('./pictures-grid');
 
 require('./gallery');
 
+require('./scroll-to');
+
+require('./loader');
 
 
-},{"./gallery":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/gallery.coffee","./pictures-grid":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/pictures-grid.coffee","./util":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/util.coffee"}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/gallery.coffee":[function(require,module,exports){
+
+},{"./gallery":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/gallery.coffee","./loader":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/loader.coffee","./pictures-grid":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/pictures-grid.coffee","./scroll-to":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/scroll-to.coffee","./util":"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/util.coffee"}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/gallery.coffee":[function(require,module,exports){
 var module;
 
 module = angular.module('app', []);
@@ -46,14 +50,32 @@ module.controller('gallery', [
 
 
 
+},{}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/loader.coffee":[function(require,module,exports){
+$(function() {
+  $('#hideAll .loader').css({
+    marginTop: window.innerHeight * 0.4
+  });
+  return $(window).load(function() {
+    return $('#hideAll').css({
+      display: 'none'
+    });
+  });
+});
+
+
+
 },{}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/pictures-grid.coffee":[function(require,module,exports){
 $(function() {
   var arrangePictures, imgLoad;
   arrangePictures = (function() {
     var areaWidth, areaWidthFunc, columnNums, maxY;
-    areaWidthFunc = function() {
-      return $(window).width() - window.innerHeight * 264 / 420;
-    };
+    areaWidthFunc = (function() {
+      if ($(window).width() > 800) {
+        return $(window).width() - window.innerHeight * 264 / 420;
+      } else {
+        return $(window).width();
+      }
+    });
     areaWidth = areaWidthFunc();
     columnNums = (function() {
       switch (false) {
@@ -95,6 +117,21 @@ $(function() {
 
 
 
+},{}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/scroll-to.coffee":[function(require,module,exports){
+$(function() {
+  $('.nav-about-author').on('click', function() {
+    return $.scrollTo('.about-author', 800);
+  });
+  $('.nav-gallery').on('click', function() {
+    return $.scrollTo('.gallery', 1000);
+  });
+  return $('.nav-process').on('click', function() {
+    return $.scrollTo('.process', 1000);
+  });
+});
+
+
+
 },{}],"/Users/Trikster/static_sites/PojitkovaArt/_PojitkovaArt/src/javascript/util.coffee":[function(require,module,exports){
 var calcWidthOrHeight, fixSize;
 
@@ -107,17 +144,31 @@ $(function() {
 
 fixSize = (function() {
   var sidebarWidth, wh;
-  wh = window.innerHeight;
-  sidebarWidth = wh * 264 / 420;
-  $('.img-interior').css({
-    height: wh
-  });
-  $('.main-area').css({
-    'margin-left': sidebarWidth + 'px'
-  });
-  $('.nav').css({
-    left: sidebarWidth
-  });
+  if (window.innerWidth > 800) {
+    wh = window.innerHeight;
+    sidebarWidth = wh * 264 / 420;
+    $('.img-interior').css({
+      height: wh
+    }).css({
+      display: 'block'
+    });
+    $('.main-area').css({
+      'margin-left': sidebarWidth + 'px'
+    });
+    $('.nav').css({
+      left: sidebarWidth
+    });
+  } else {
+    $('.img-interior').css({
+      display: 'none'
+    });
+    $('.main-area').css({
+      'margin-left': 'auto'
+    });
+    $('.nav').css({
+      left: 'auto'
+    });
+  }
   calcWidthOrHeight();
 });
 
@@ -127,7 +178,11 @@ calcWidthOrHeight = (function() {
     return window.innerHeight;
   };
   widthFunc = function() {
-    return window.innerWidth - height * 264 / 420;
+    if (window.innerWidth > 800) {
+      return window.innerWidth - height * 264 / 420;
+    } else {
+      return window.innerWidth;
+    }
   };
   height = heightFunc();
   width = widthFunc();
