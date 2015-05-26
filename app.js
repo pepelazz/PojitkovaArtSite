@@ -26,7 +26,8 @@ module.controller('gallery', [
       return pictures.push({
         src: './images/pictures/' + item.fileName + ".jpg",
         w: item.size[0],
-        h: item.size[1]
+        h: item.size[1],
+        title: item.title
       });
     });
     openPhotoSwipe = (function(index) {
